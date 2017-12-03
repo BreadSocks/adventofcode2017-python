@@ -2,8 +2,6 @@ import itertools
 
 diffs = []
 
-# ('1098', '122') 9.0 - 5th line
-
 with open("input.txt") as inputFile:
     for line in inputFile:
         line = line.replace("\n", "")
