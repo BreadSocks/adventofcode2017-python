@@ -1,12 +1,15 @@
-count = 3
+count = 2
 
-grid = {"0,0": 1, "1,0": 2}
+square = 3
+
+grid = {"0,0": 1, "1,0": 1}
+squares = {1: 1, 2: 1, 3: 2}
 
 new_position = [1, 1]
 
 direction_taken = "N"
 
-while count < 1025:
+while count < 347992:
     # put new info in
     grid[str(new_position[0]) + "," + str(new_position[1])] = count
     number_to_left = str(new_position[0] - 1) + "," + str(new_position[1])
@@ -14,7 +17,7 @@ while count < 1025:
     number_to_right = str(new_position[0] + 1) + "," + str(new_position[1])
     number_to_bottom = str(new_position[0]) + "," + str(new_position[1] - 1)
 
-    # work out next round
+    # work out next position
     if direction_taken == "N" and not grid.__contains__(number_to_left):
         direction_taken = "W"
         new_position = [new_position[0] - 1, new_position[1]]
@@ -36,20 +39,38 @@ while count < 1025:
             new_position = [new_position[0], new_position[1] - 1]
         elif direction_taken == "W":
             new_position = [new_position[0] - 1, new_position[1]]
-    count += 1
+
+    # work out next count
+    above = str(new_position[0]) + "," + str(new_position[1] + 1)
+    above_left = str(new_position[0] - 1) + "," + str(new_position[1] + 1)
+    above_right = str(new_position[0] + 1) + "," + str(new_position[1] + 1)
+    middle_left = str(new_position[0] - 1) + "," + str(new_position[1])
+    middle_right = str(new_position[0] + 1) + "," + str(new_position[1])
+    below = str(new_position[0]) + "," + str(new_position[1] - 1)
+    below_left = str(new_position[0] - 1) + "," + str(new_position[1] - 1)
+    below_right = str(new_position[0] + 1) + "," + str(new_position[1] - 1)
+
+    count = 0
+    if grid.__contains__(above_left):
+        count += grid[above_left]
+    if grid.__contains__(above):
+        count += grid[above]
+    if grid.__contains__(above_right):
+        count += grid[above_right]
+    if grid.__contains__(middle_left):
+        count += grid[middle_left]
+    if grid.__contains__(middle_right):
+        count += grid[middle_right]
+    if grid.__contains__(below_left):
+        count += grid[below_left]
+    if grid.__contains__(below):
+        count += grid[below]
+    if grid.__contains__(below_right):
+        count += grid[below_right]
+
+    square += 1
+    squares[square] = count
 
 print grid
-
-for key, value in grid.items():
-    #  Example outputs
-    if value == 1:
-        print "Found 1 at ", key, abs(int(key.split(",")[0])) + abs(int(key.split(",")[1]))
-    elif value == 12:
-        print "Found 12 at ", key, abs(int(key.split(",")[0])) + abs(int(key.split(",")[1]))
-    elif value == 23:
-        print "Found 23 at", key, abs(int(key.split(",")[0])) + abs(int(key.split(",")[1]))
-    elif value == 1024:
-        print "Found 1024 at ", key, abs(int(key.split(",")[0])) + abs(int(key.split(",")[1]))
-    #  answer
-    elif value == 347991:
-        print "Found 347991 at ", key, abs(int(key.split(",")[0])) + abs(int(key.split(",")[1]))
+print squares
+print squares[square]
